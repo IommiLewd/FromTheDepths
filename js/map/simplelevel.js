@@ -17,20 +17,27 @@ class SimpleLevel extends Phaser.State {
             e.preventDefault();
         }
         this.game.stage.backgroundColor = "#1b2823";
+        this.game.world.setBounds(0, 0, 800, 500);
+        this.backgroundGradient = this.game.add.tileSprite(0,0, 800, 500, 'backgroundGradient');
+
     }
     _loadInterface(){
      this.interface = new userInterface(this.game);
+        this.interface.fixedToCamera = true;
     }
     _loadPlayer(){
-        this.player = new Player(this.game, 100, 100, 'playerSub');
+        this.player = new Player(this.game, 100, 190, 'playerSub');
+       // this.player.fixedToCamera = true;
+        this.game.camera.follow(this.player);
     }
 
     preload() {
 
     }
     create() {
+         this._loadLevel();
         this._loadPlayer();
-        this._loadLevel();
+       
         this._loadInterface();
          this.courseUpdater = this.interface.events.courseChanger.add(this.player._courseUpdate, this.player, 0);
          this.depthUpdater = this.interface.events.deepChanger.add(this.player._depthUpdate, this.player, 0);

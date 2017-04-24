@@ -7,12 +7,13 @@ class Player extends Phaser.Sprite {
         this.game.physics.arcade.enableBody(this);
         this.body.collideWorldBounds = true;
         this.body.maxVelocity.x = 30;
-        this.body.maxVelocity.y = 10;
-        this.newDepth = 20;
+        this.body.maxVelocity.y = 15;
+        this.newDepth = 190;
         this._thruster();
         this._vent();
         //this._loadDetectionSphere();
         this.detectionRating = 2;
+        this._loadDepthDisplay();
     }
     _depthUpdate(newDepth) {
         this.newDepth = newDepth;
@@ -36,7 +37,10 @@ class Player extends Phaser.Sprite {
         } else {this.thruster.on = true;}
     }
     
-
+_loadDepthDisplay(){
+    this.depthDisplay = this.game.add.tileSprite(4, 38, 2, 20, 'statusPixel');
+    this.depthDisplay.fixedToCamera = true;
+}
 
     _thruster() {
         this.thruster = this.game.add.emitter(-30, 10, 200);
@@ -70,20 +74,15 @@ class Player extends Phaser.Sprite {
 
         }, this);
         this.ventilator.setScale(0.3, 1, 0.3, 1, 500);
-        this.ventilator.start(false, 400, 130);
+        this.ventilator.start(false, 280, 130);
         this.ventilator.angle = 90;
         this.addChild(this.ventilator);
         //this.ventilator.on = false;
     }
 
-
-
-
-
-
-
     update() {
-        if (this.y < this.newDepth - 5) {
+        this.depthDisplay.height = this.y / 290 * 280 - 180;
+        if (this.y < this.newDepth - 1) {
             this.body.acceleration.y = 3;
 //            this.ventilator.on = true;
             this.ventilator.frequency = 70;
@@ -91,7 +90,7 @@ class Player extends Phaser.Sprite {
             if (this.angle < 22) {
                 this.angle += 0.08;
             }
-        } else if (this.y > this.newDepth + 5) {
+        } else if (this.y > this.newDepth + 1) {
            this.ventilator.frequency = 70;
             this.body.acceleration.y = -3;
             if (this.angle > -22) {
@@ -104,9 +103,9 @@ class Player extends Phaser.Sprite {
                 this.angle += 0.08;
             } else if (this.angle > 1) {
                 this.angle -= 0.08;
-            } else { this.ventilator.frequency = 390;}
+            } else { this.ventilator.frequency = 280;}
 
-        }
+        } 
 
 
 

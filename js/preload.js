@@ -9,7 +9,9 @@ class Preload extends Phaser.State {
         this.load.image('bubble', 'img/bubble.png');
         this.load.image('detectionSphere', 'img/detectionSphere.png');
         
-        
+        this.load.image('backgroundGradient', 'img/backgroundGradient.png');
+        this.load.image('statusPixel', 'img/statusPixel.png');
+  
         
         //subs
         this.load.image('playerSub', 'img/subs/playerSub.png');
