@@ -22,7 +22,7 @@ class Preload extends Phaser.State {
          this.load.image('statusBar', 'img/ui/statusBar.png');
          this.load.image('depthArrow', 'img/ui/depthArrow.png');
          this.load.image('courseArrow', 'img/ui/courseArrow.png');
-        
+        this.game.renderer.renderSession.roundPixels = true
     }
     create() {
         console.log("Preload.js:  Preload.create-> load_Level");

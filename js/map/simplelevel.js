@@ -29,6 +29,7 @@ class SimpleLevel extends Phaser.State {
         this.player = new Player(this.game, 100, 190, 'playerSub');
        // this.player.fixedToCamera = true;
         this.game.camera.follow(this.player);
+     
     }
 
     preload() {
@@ -43,8 +44,8 @@ class SimpleLevel extends Phaser.State {
          this.depthUpdater = this.interface.events.deepChanger.add(this.player._depthUpdate, this.player, 0);
     }
     update() {
-
-
+console.log(this.game.camera.x);
+//this.game.camera.x -= 300; 
     }
 }
 

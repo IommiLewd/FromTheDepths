@@ -6,7 +6,7 @@ class Player extends Phaser.Sprite {
         this.anchor.setTo(0.5);
         this.game.physics.arcade.enableBody(this);
         this.body.collideWorldBounds = true;
-        this.body.maxVelocity.x = 30;
+        this.body.maxVelocity.x = 10;
         this.body.maxVelocity.y = 15;
         this.newDepth = 190;
         this._thruster();
@@ -31,7 +31,6 @@ class Player extends Phaser.Sprite {
         course = Math.abs(course);
         course = course / 4;
         this.body.maxVelocity.x = course;
-   
         if(course < 5 && course > -5){
             this.thruster.on = false;
         } else {this.thruster.on = true;}
@@ -81,6 +80,7 @@ _loadDepthDisplay(){
     }
 
     update() {
+        console.log('ship acceleration is' + this.body.acceleration.x + '  velocity is ' + this.body.velocity.x);
         this.depthDisplay.height = this.y / 290 * 280 - 180;
         if (this.y < this.newDepth - 1) {
             this.body.acceleration.y = 3;
