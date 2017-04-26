@@ -17,13 +17,13 @@ class Player extends Phaser.Sprite {
     }
     _depthUpdate(newDepth) {
         this.newDepth = newDepth;
- 
+
     }
     _courseUpdate(course) {
         this.body.acceleration.x = course / 20;
-             if(course < 0){
+        if (course < 0) {
             this.thruster.angle = 180;
-                 this.thruster.y = -15;
+            this.thruster.y = -15;
         } else {
             this.thruster.angle = 0;
             this.thruster.y = 15;
@@ -31,15 +31,17 @@ class Player extends Phaser.Sprite {
         course = Math.abs(course);
         course = course / 4;
         this.body.maxVelocity.x = course;
-        if(course < 5 && course > -5){
+        if (course < 5 && course > -5) {
             this.thruster.on = false;
-        } else {this.thruster.on = true;}
+        } else {
+            this.thruster.on = true;
+        }
     }
-    
-_loadDepthDisplay(){
-    this.depthDisplay = this.game.add.tileSprite(4, 38, 2, 20, 'statusPixel');
-    this.depthDisplay.fixedToCamera = true;
-}
+
+    _loadDepthDisplay() {
+        this.depthDisplay = this.game.add.tileSprite(4, 38, 2, 20, 'statusPixel');
+        this.depthDisplay.fixedToCamera = true;
+    }
 
     _thruster() {
         this.thruster = this.game.add.emitter(-30, 10, 200);
@@ -54,7 +56,7 @@ _loadDepthDisplay(){
         }, this);
         this.thruster.setScale(0.3, 0.7, 0.3, 0.7, 300);
         this.thruster.start(false, 300, 130);
-        
+
         this.addChild(this.thruster);
         this.thruster.on = false;
     }
@@ -68,7 +70,7 @@ _loadDepthDisplay(){
         this.ventilator.setRotation(0, 0);
         this.ventilator.setAlpha(0.1, 1.);
         this.ventilator.forEach(function (particle) {
-//            particle.body.allowGravity = false;
+            //            particle.body.allowGravity = false;
             particle.body.gravity.y = 130;
 
         }, this);
@@ -80,54 +82,43 @@ _loadDepthDisplay(){
     }
 
     update() {
+
+    
+
       
+
         this.depthDisplay.height = this.y / 290 * 280 - 180;
         if (this.y < this.newDepth - 1) {
             this.body.acceleration.y = 3;
-//            this.ventilator.on = true;
+            //            this.ventilator.on = true;
             this.ventilator.frequency = 70;
-          
+
             if (this.angle < 22) {
                 this.angle += 0.08;
             }
         } else if (this.y > this.newDepth + 1) {
-           this.ventilator.frequency = 70;
+            this.ventilator.frequency = 70;
             this.body.acceleration.y = -3;
             if (this.angle > -22) {
                 this.angle -= 0.08;
             }
         } else {
-           
+
             this.body.velocity.y = 0;
             if (this.angle < -1) {
                 this.angle += 0.08;
             } else if (this.angle > 1) {
                 this.angle -= 0.08;
-            } else { this.ventilator.frequency = 280;}
+            } else {
+                this.ventilator.frequency = 280;
+            }
 
-        } 
+        }
 
 
 
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

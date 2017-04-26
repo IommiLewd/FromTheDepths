@@ -8,11 +8,12 @@ class weaponSystem extends Phaser.Sprite {
         this._initCrosshair();
         this._initTorpedos();
         this._initLaunchButton();
+        this._initExplosion();
         this._nextFire = 0;
         this.fireRate = 100;
         this.torpedoRotation = 0;
-        this.TURN_RATE = 2;
-        this.SPEED = 80;
+        this.TURN_RATE = 0.5;
+        this.SPEED = 70;
         this.shipX = 0;
         this.shipY = 0;
     }
@@ -39,24 +40,49 @@ class weaponSystem extends Phaser.Sprite {
             this.torpedo = this.torpedos.getFirstDead();
 
             this.torpedo.reset(this.shipX + 30, this.shipY + 10);
-            this.game.physics.arcade.velocityFromRotation(this.torpedoRotation, 20, this.torpedo.body.velocity);
+            //this.game.physics.arcade.velocityFromRotation(this.torpedoRotation, 20, this.torpedo.body.velocity);
             this.game.camera.shake(0.004, 40);
             this.torpedo.rotation = this.torpedoRotation;
             this.torpedo.bringToTop();
             this.torpedos.add(this.torpedo);
-            this.torpedo.body.velocity.x = 30;
+            //this.torpedo.body.velocity.x = 30;
             this._torpedoThruster();
-        
-            
-            
-            
+
+
+
+
         }
 
     }
-    
-    
-    
-        _torpedoThruster() {
+
+    _torpedokilled(x, y) {
+        console.log('torpedo killed at' + x + y);
+        this.currentExplosion;
+        this.currentExplosion = this.explosion.getFirstDead();
+        this.currentExplosion.reset(x, y);
+        var rotation = Math.floor(Math.random() * 3) + 1; // this will get a number between 1 and 99;
+        rotation *= Math.floor(Math.random() * 2) == 1 ? 1 : -1;
+        this.game.camera.shake(0.04, 40);
+        this.currentExplosion.rotation = rotation;
+        this.currentExplosion.scale.setTo(1.2);
+        this.currentExplosion.animations.add('boom', null, 10);
+        this.currentExplosion.animations.play('boom');
+        this.currentExplosion.animations.currentAnim.onComplete.add(function (currentExplosion) {
+            currentExplosion.kill(this);
+        }, this);
+
+
+    }
+
+    _initExplosion() {
+        this.explosion = this.game.add.group();
+        this.explosion.createMultiple(50, 'explosion');
+        this.explosion.setAll('anchor.x', 0.5);
+        this.explosion.setAll('anchor.y', 0.5);
+
+    }
+
+    _torpedoThruster() {
         this.torpedoThruster = this.game.add.emitter(0, 0, 0);
         this.torpedoThruster.makeParticles('bubble');
         this.torpedoThruster.maxParticleSpeed = new Phaser.Point(-100, 50);
@@ -70,7 +96,7 @@ class weaponSystem extends Phaser.Sprite {
         this.torpedoThruster.setScale(0.3, 0.7, 0.3, 0.7, 300);
         this.torpedoThruster.start(false, 400, 20);
         this.torpedo.addChild(this.torpedoThruster);
-       
+
     }
 
     _initTorpedos() {
@@ -91,33 +117,42 @@ class weaponSystem extends Phaser.Sprite {
 
     update() {
 
-
         this.torpedos.forEachAlive(function (torpedo) {
-      
+
+
+
+
+            if (torpedo.y < 150) {
+                this._torpedokilled(torpedo.x, torpedo.y);
+                torpedo.kill();
+            }
+            if (torpedo.y > 490) {
+                this._torpedokilled(torpedo.x, torpedo.y);
+                torpedo.kill();
+            }
+
             var targetAngle = this.game.math.angleBetween(
                 torpedo.x, torpedo.y,
                 this.crosshair.x, this.crosshair.y
-                
             );
-                var targetDistance = this.game.math.distance(torpedo.x, torpedo.y, this.shipX, this.shipY);
+            var targetDistance = this.game.math.distance(torpedo.x, torpedo.y, this.shipX, this.shipY);
             var delta = targetAngle - torpedo.rotation;
             if (delta > Math.PI) delta -= Math.PI * 2;
             if (delta < -Math.PI) delta += Math.PI * 2;
 
-//            if(targetDistance < 90){detonationDistance = true;}
-//            console.log(detonationDistance);
-//            if(detonationDistance == false){
-                
-            if(targetDistance < 320 && targetDistance > 40){
-            if (delta > 0) {
-                torpedo.angle += this.TURN_RATE;
-            } else {
-                torpedo.angle -= this.TURN_RATE;
-            }}
-     
-  this.game.physics.arcade.accelerationFromRotation(torpedo.rotation, this.SPEED, torpedo.body.acceleration);
-    
-//this.game.physics.arcade.velocityFromRotation(this.torpedoRotation, 190, this.torpedo.body.velocity);
+
+
+            if ( /*targetDistance < 280 && */ targetDistance > 80) {
+                if (delta > 0) {
+                    torpedo.angle += this.TURN_RATE;
+                } else {
+                    torpedo.angle -= this.TURN_RATE;
+                }
+            }
+
+            //this.game.physics.arcade.accelerationFromRotation(torpedo.rotation, this.SPEED, torpedo.body.acceleration);
+            //  torpedo.body.velocity.x = 30;
+            this.game.physics.arcade.velocityFromRotation(torpedo.rotation, this.SPEED, torpedo.body.velocity);
         }, this);
 
 

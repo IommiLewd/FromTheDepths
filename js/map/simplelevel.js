@@ -28,13 +28,19 @@ class SimpleLevel extends Phaser.State {
     _loadPlayer(){
         this.player = new Player(this.game, 100, 190, 'playerSub');
        // this.player.fixedToCamera = true;
-        this.game.camera.follow(this.player);
+       // this.game.camera.follow(this.player);
     }
     
     _loadWeaponSystem(){
         this.weapons = new weaponSystem(this.game);
         this.weapons.fixedToCamera = true;
         // this.game.camera.follow(this.weapons.crosshair);
+    }
+    _loadCameraAnchor(){
+        this.cameraTarget = this.game.add.image(200, 200, 'cameraTarget');
+        this.cameraTarget.anchor.setTo(0.5);
+         this.game.camera.follow(this.cameraTarget);
+        
     }
 
     preload() {
@@ -45,10 +51,23 @@ class SimpleLevel extends Phaser.State {
         this._loadPlayer();
        this._loadWeaponSystem();
         this._loadInterface();
+        this._loadCameraAnchor();
          this.courseUpdater = this.interface.events.courseChanger.add(this.player._courseUpdate, this.player, 0);
          this.depthUpdater = this.interface.events.deepChanger.add(this.player._depthUpdate, this.player, 0);
     }
     update() {
+        
+            var midX = (this.player.x + this.weapons.crosshair.x) / 2;
+        var midY = (this.player.y + this.weapons.crosshair.y) / 2;
+        
+        
+
+        this.cameraTarget.x = midX;
+        this.cameraTarget.y = midY;
+     
+        
+        
+        
         this.weapons.torpedoRotation = this.player.rotation;
         this.weapons.shipX = this.player.x;
         this.weapons.shipY = this.player.y;
