@@ -80,7 +80,7 @@ _loadDepthDisplay(){
     }
 
     update() {
-        console.log('ship acceleration is' + this.body.acceleration.x + '  velocity is ' + this.body.velocity.x);
+      
         this.depthDisplay.height = this.y / 290 * 280 - 180;
         if (this.y < this.newDepth - 1) {
             this.body.acceleration.y = 3;

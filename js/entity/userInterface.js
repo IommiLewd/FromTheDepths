@@ -45,7 +45,7 @@ class userInterface extends Phaser.Sprite {
         this.courseArrow.events.onInputDown.add(this._setCourse, this);
         this.courseArrow.events.onInputUp.add(this._disableCourse, this);
         this.courseSelector.fixedToCamera = true;
-        //this.courseArrow.fixedToCamera = true;
+       // this.courseArrow.fixedToCamera = true;
     }
 
     _setCourse() {
@@ -99,7 +99,7 @@ class userInterface extends Phaser.Sprite {
 //                if(this.course < 5){
 //                    this.course = 0;
 //                }
-                console.log(this.course);
+          
             }
         }
         

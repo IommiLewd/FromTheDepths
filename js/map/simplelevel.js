@@ -29,7 +29,12 @@ class SimpleLevel extends Phaser.State {
         this.player = new Player(this.game, 100, 190, 'playerSub');
        // this.player.fixedToCamera = true;
         this.game.camera.follow(this.player);
-     
+    }
+    
+    _loadWeaponSystem(){
+        this.weapons = new weaponSystem(this.game);
+        this.weapons.fixedToCamera = true;
+        // this.game.camera.follow(this.weapons.crosshair);
     }
 
     preload() {
@@ -38,14 +43,15 @@ class SimpleLevel extends Phaser.State {
     create() {
          this._loadLevel();
         this._loadPlayer();
-       
+       this._loadWeaponSystem();
         this._loadInterface();
          this.courseUpdater = this.interface.events.courseChanger.add(this.player._courseUpdate, this.player, 0);
          this.depthUpdater = this.interface.events.deepChanger.add(this.player._depthUpdate, this.player, 0);
     }
     update() {
-console.log(this.game.camera.x);
-//this.game.camera.x -= 300; 
+        this.weapons.torpedoRotation = this.player.rotation;
+        this.weapons.shipX = this.player.x;
+        this.weapons.shipY = this.player.y;
     }
 }
 

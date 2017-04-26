@@ -5,12 +5,16 @@ class Preload extends Phaser.State {
       
         this.load.script('simpleLevel', 'js/map/simplelevel.js');
         this.load.script('player', 'js/entity/player.js');
+        this.load.script('weaponSystem', 'js/entity/weaponSystem.js');
         this.load.tilemap('mainMap', 'json/mainMap.json', null, Phaser.Tilemap.TILED_JSON); 
         this.load.image('bubble', 'img/bubble.png');
         this.load.image('detectionSphere', 'img/detectionSphere.png');
         
         this.load.image('backgroundGradient', 'img/backgroundGradient.png');
         this.load.image('statusPixel', 'img/statusPixel.png');
+        this.load.image('crosshair', 'img/crosshair.png');
+        this.load.image('torpedo', 'img/torpedo.png');
+        this.load.image('testFire', 'img/testFire.png');
   
         
         //subs
