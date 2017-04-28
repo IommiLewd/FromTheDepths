@@ -91,13 +91,13 @@ class Player extends Phaser.Sprite {
         if (this.y < this.newDepth - 1) {
             this.body.acceleration.y = 3;
             //            this.ventilator.on = true;
-            this.ventilator.frequency = 70;
+            this.ventilator.frequency = 30;
 
             if (this.angle < 22) {
                 this.angle += 0.08;
             }
         } else if (this.y > this.newDepth + 1) {
-            this.ventilator.frequency = 70;
+            this.ventilator.frequency = 30;
             this.body.acceleration.y = -3;
             if (this.angle > -22) {
                 this.angle -= 0.08;

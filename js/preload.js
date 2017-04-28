@@ -13,7 +13,7 @@ class Preload extends Phaser.State {
         
         this.load.image('detectionSphere', 'img/detectionSphere.png');
         
-        this.load.image('backgroundGradient', 'img/backgroundGradient.png');
+        this.load.image('backgroundGradient', 'img/backgroundGradient2.png');
         this.load.image('statusPixel', 'img/statusPixel.png');
         this.load.image('crosshair', 'img/crosshair.png');
         this.load.image('torpedo', 'img/torpedo.png');

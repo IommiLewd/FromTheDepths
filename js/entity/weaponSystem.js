@@ -12,7 +12,7 @@ class weaponSystem extends Phaser.Sprite {
         this._nextFire = 0;
         this.fireRate = 100;
         this.torpedoRotation = 0;
-        this.TURN_RATE = 0.5;
+        this.TURN_RATE = 0.4;
         this.SPEED = 70;
         this.shipX = 0;
         this.shipY = 0;
@@ -60,7 +60,7 @@ class weaponSystem extends Phaser.Sprite {
         this.currentExplosion;
         this.currentExplosion = this.explosion.getFirstDead();
         this.currentExplosion.reset(x, y);
-        var rotation = Math.floor(Math.random() * 3) + 1; // this will get a number between 1 and 99;
+        var rotation = Math.floor(Math.random() * 3) + 1;
         rotation *= Math.floor(Math.random() * 2) == 1 ? 1 : -1;
         this.game.camera.shake(0.04, 40);
         this.currentExplosion.rotation = rotation;
@@ -84,17 +84,20 @@ class weaponSystem extends Phaser.Sprite {
 
     _torpedoThruster() {
         this.torpedoThruster = this.game.add.emitter(0, 0, 0);
+        this.torpedoThruster.width = 0;
+        this.torpedoThruster.height = 0;
+        
         this.torpedoThruster.makeParticles('bubble');
         this.torpedoThruster.maxParticleSpeed = new Phaser.Point(-100, 50);
         this.torpedoThruster.minParticleSpeed = new Phaser.Point(-200, -50);
         this.torpedoThruster.setRotation(0, 0);
-        this.torpedoThruster.setAlpha(0.1, 1.0, 800);
+        this.torpedoThruster.setAlpha(1.0, 0.1, 400);
         this.torpedoThruster.forEach(function (particle) {
             particle.body.allowGravity = false;
 
         }, this);
-        this.torpedoThruster.setScale(0.3, 0.7, 0.3, 0.7, 300);
-        this.torpedoThruster.start(false, 400, 20);
+        this.torpedoThruster.setScale(0.3, 0.7, 0.3, 0.7, 250);
+        this.torpedoThruster.start(false, 250, 20);
         this.torpedo.addChild(this.torpedoThruster);
 
     }
