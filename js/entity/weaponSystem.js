@@ -53,10 +53,6 @@ class weaponSystem extends Phaser.Sprite {
             this.torpedos.add(this.torpedo);
             //this.torpedo.body.velocity.x = 30;
             this._torpedoThruster();
-
-
-
-
         }
 
     }
@@ -127,10 +123,6 @@ class weaponSystem extends Phaser.Sprite {
     update() {
 
         this.torpedos.forEachAlive(function (torpedo) {
-
-
-
-
             if (torpedo.y < 150) {
                 this._torpedokilled(torpedo.x, torpedo.y);
                 torpedo.kill();
@@ -139,7 +131,6 @@ class weaponSystem extends Phaser.Sprite {
                 this._torpedokilled(torpedo.x, torpedo.y);
                 torpedo.kill();
             }
-
             var targetAngle = this.game.math.angleBetween(
                 torpedo.x, torpedo.y,
               torpedo.targetX, torpedo.targetY

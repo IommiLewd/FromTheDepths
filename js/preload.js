@@ -11,17 +11,22 @@ class Preload extends Phaser.State {
         this.load.image('cameraTarget', 'img/cameraTarget.png');
         this.load.spritesheet('explosion', 'img/explosion.png', 50, 50, 4);
         
-        this.load.image('detectionSphere', 'img/detectionSphere.png');
-        
         this.load.image('backgroundGradient', 'img/backgroundGradient2.png');
         this.load.image('statusPixel', 'img/statusPixel.png');
         this.load.image('crosshair', 'img/crosshair.png');
         this.load.image('torpedo', 'img/torpedo.png');
         this.load.image('testFire', 'img/testFire.png');
+        this.load.image('wave', 'img/wave.png');
   
+        //Neutral Ships
+         this.load.script('neutralShips', 'js/entity/neutralShips.js');
+        this.load.image('hauler', 'img/neutralShips/hauler.png');
+        this.load.image('largeHauler', 'img/neutralShips/largeHauler.png');
+        this.load.image('oilTanker', 'img/neutralShips/oilTanker.png');
         
         //subs
         this.load.image('playerSub', 'img/subs/playerSub.png');
+        
         //Ui Related
          this.load.script('userInterface', 'js/entity/userInterface.js');
          this.load.image('depthMeter', 'img/ui/depthMeter.png');

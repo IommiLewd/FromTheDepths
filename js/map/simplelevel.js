@@ -17,58 +17,93 @@ class SimpleLevel extends Phaser.State {
             e.preventDefault();
         }
         this.game.stage.backgroundColor = "#1b2823";
-        this.game.world.setBounds(0, 0, 800, 500);
-        this.backgroundGradient = this.game.add.tileSprite(0,0, 800, 500, 'backgroundGradient');
+        this.game.world.setBounds(0, 0, 1200, 500);
+        this.backgroundGradient = this.game.add.tileSprite(0, 0, 1200, 500, 'backgroundGradient');
 
     }
-    _loadInterface(){
-     this.interface = new userInterface(this.game);
+    _loadInterface() {
+        this.interface = new userInterface(this.game);
         this.interface.fixedToCamera = true;
     }
-    _loadPlayer(){
+    _loadPlayer() {
         this.player = new Player(this.game, 100, 190, 'playerSub');
-       // this.player.fixedToCamera = true;
-       // this.game.camera.follow(this.player);
+        // this.player.fixedToCamera = true;
+        // this.game.camera.follow(this.player);
     }
-    
-    _loadWeaponSystem(){
+
+    _loadWaveGenerator() {
+        this.waveHandler = this.game.add.group();
+        this.mapLength = this.world.width / 32;
+        this.mapLength = Math.round(this.mapLength);
+        console.log(this.mapLength);
+        for (var i = 0; i < this.mapLength; i++) {
+            this.waveSprite = this.game.add.sprite(i * 32, 200, 'wave');
+            this.waveHandler.add(this.waveSprite);
+        }
+    }
+
+    _loadWeaponSystem() {
         this.weapons = new weaponSystem(this.game);
         this.weapons.fixedToCamera = true;
         // this.game.camera.follow(this.weapons.crosshair);
     }
-    _loadCameraAnchor(){
+
+    _loadNeutralShips() {
+        this.neutralShip = new neutralShips(this.game, 700, 110, 'hauler');
+
+    }
+    _loadCameraAnchor() {
         this.cameraTarget = this.game.add.image(200, 200, 'cameraTarget');
         this.cameraTarget.anchor.setTo(0.5);
-         this.game.camera.follow(this.cameraTarget);
-        
-        
+        this.game.camera.follow(this.cameraTarget);
+
+    }
+    _animateWaves() {
+
+
+        // this.count increments every frame. gives us a constantly
+        // increasing X value for our sin function
+        this.count += 0.1;
+        var i = 0;
+        this.waveHandler.forEach(function (currentWave) {
+            var x = i + this.count;
+            var y = Math.sin(x) * 3;
+            currentWave.y = y + 135;
+            i++;
+        }, this);
+
     }
 
     preload() {
 
     }
     create() {
-         this._loadLevel();
+        this.count = 0;
+        this._loadLevel();
         this._loadPlayer();
-       this._loadWeaponSystem();
+        
+        this._loadNeutralShips();
+        this._loadWaveGenerator();
+        this._loadWeaponSystem();
         this._loadInterface();
+
         this._loadCameraAnchor();
-         this.courseUpdater = this.interface.events.courseChanger.add(this.player._courseUpdate, this.player, 0);
-         this.depthUpdater = this.interface.events.deepChanger.add(this.player._depthUpdate, this.player, 0);
+        this.courseUpdater = this.interface.events.courseChanger.add(this.player._courseUpdate, this.player, 0);
+        this.depthUpdater = this.interface.events.deepChanger.add(this.player._depthUpdate, this.player, 0);
     }
     update() {
-        
-            var midX = (this.player.x + 25 + this.weapons.crosshair.x) / 2;
+
+        var midX = (this.player.x + 25 + this.weapons.crosshair.x) / 2;
         var midY = (this.player.y + 25 + this.weapons.crosshair.y) / 2;
-        
-        
+
+
 
         this.cameraTarget.x = midX;
         this.cameraTarget.y = midY;
-     
-        
-        
-        
+
+
+
+        this._animateWaves();
         this.weapons.torpedoRotation = this.player.rotation;
         this.weapons.shipX = this.player.x;
         this.weapons.shipY = this.player.y;
