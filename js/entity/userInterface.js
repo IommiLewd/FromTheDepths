@@ -23,13 +23,11 @@ class userInterface extends Phaser.Sprite {
     _loadDepthMeter() {
         this.depthMeter = this.game.add.image(2, 36, 'depthMeter');
         this.depthMeter.fixedToCamera = true;
-        this.depthArrow = this.game.add.sprite(0, 34, 'depthArrow');
+        this.depthArrow = this.game.add.sprite(0, 58, 'depthArrow');
         this.depthArrow.inputEnabled = true;
         this.depthArrow.fixedToCamera = true;
         this.depthArrow.events.onInputDown.add(this._setDepth, this);
         this.depthArrow.events.onInputUp.add(this._disableDepth, this);
-
-
     }
     _setDepth() {
         this.depthArrowMoving = true;
@@ -41,18 +39,18 @@ class userInterface extends Phaser.Sprite {
 
     _loadCourseSelector() {
         this.courseSelector = this.game.add.image(440, 338, 'courseSelector');
-        this.courseArrow = this.game.add.image(542, 340, 'courseArrow');
+        this.courseArrow = this.game.add.image(546, 348, 'courseArrow');
         this.courseArrow.anchor.setTo(0.5);
         this.courseArrow.inputEnabled = true;
         this.courseArrow.events.onInputDown.add(this._setCourse, this);
         this.courseArrow.events.onInputUp.add(this._disableCourse, this);
         this.courseSelector.fixedToCamera = true;
-        // this.courseArrow.fixedToCamera = true;
+     this.courseArrow.fixedToCamera = true;
     }
 
     _setCourse() {
         this.courseArrowMoving = true;
-        console.log('courseArrowMoving!!!one');
+
 
     }
 
@@ -71,7 +69,8 @@ class userInterface extends Phaser.Sprite {
             if (this.game.input.worldY > this.y + 36 && this.game.input.worldY < this.y + 316) {
                 this.depthLogger = this.game.input.y;
                 this.horizontalLogger = this.depthLogger - 35;
-                this.horizontalCoordinate = this.horizontalLogger / 280 * 290 + 190;
+                this.horizontalCoordinate = this.horizontalLogger / 280 * 290 + 165;
+    
                 this.depthArrow.cameraOffset.y = this.game.input.y;
 
             }
@@ -79,37 +78,33 @@ class userInterface extends Phaser.Sprite {
     }
 
     _courseUpdater() {
-        //  this.courseArrow.y = this.y + 348;
-
-        //   this.courseArrow.cameraOffset.x = this.markerLocation;
-        // this.statusBar.cameraOffset.y + 1;
-
         if (this.courseArrowMoving === true) {
-            //            if (this.game.input.x > 438 + 4 && this.game.input.x < 526 + 4 || this.game.input.x > 540 + 4 && this.game.input.x < 628 + 4) {
-            //                if (this.game.input.x > 443 && this.game.input.x < 529) {
-            //                    this.markerLocation = this.game.input.x;
-            //                    this.course = this.markerLocation - 443;
-            //                    this.course = (85 + 0) - this.course;
-            //                    this.course = - Math.abs(this.course);
+                        if (this.game.input.x > 438 + 4 && this.game.input.x < 526 + 4 || this.game.input.x > 540 + 4 && this.game.input.x < 628 + 4) {
+                            if (this.game.input.x > 443 && this.game.input.x < 529) {
+                                this.courseArrow.cameraOffset.x = this.game.input.x;
+                                this.course = this.game.input.x - 443;
+                                this.course = (85 + 0) - this.course;
+                                this.course = - Math.abs(this.course);
+                           
             //                    
-            //                }
-            //                if (this.game.input.x > 545 && this.game.input.x < 640) {
-            //                    this.markerLocation = this.game.input.x;
-            //                    this.course = this.markerLocation - 386 - 160;
-            //                }
-            ////                if(this.course < 5){
-            ////                    this.course = 0;
-            ////                }
-            //          
-            //            }
-            //        }
+                            }
+                            if (this.game.input.x > 545 && this.game.input.x < 640) {
+                                this.courseArrow.cameraOffset.x = this.game.input.x;
+                                this.course = this.game.input.x - 386 - 160;
+                                
+                   
+                            }
+//                            if(this.course < 5){
+//                                this.course = 0;
+//                            }
+//                      
+                        }
+                    }
 
         }
-    }
+    
 
     update() {
-
-        //this.game.camera.x? 
         this._depthUpdater();
         this._courseUpdater();
 

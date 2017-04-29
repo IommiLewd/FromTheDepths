@@ -12,7 +12,7 @@ class weaponSystem extends Phaser.Sprite {
         this._nextFire = 0;
         this.fireRate = 100;
         this.torpedoRotation = 0;
-        this.TURN_RATE = 0.4;
+        this.TURN_RATE = 0.5;
         this.SPEED = 70;
         this.shipX = 0;
         this.shipY = 0;
@@ -23,7 +23,10 @@ class weaponSystem extends Phaser.Sprite {
         this.crosshair.anchor.setTo(0.5);
         this.crosshair.inputEnabled = true;
         this.crosshair.input.enableDrag(true);
+        this.crosshairBounds = new Phaser.Rectangle(12, 34, this.game.width - 12,  this.game.height - 34);
+        this.crosshair.input.boundsRect = this.crosshairBounds;
         this.crosshair.fixedToCamera = true;
+
     }
     _initLaunchButton() {
         this.launchButton = this.game.add.image(26, 328, 'testFire');
@@ -34,12 +37,15 @@ class weaponSystem extends Phaser.Sprite {
 
     _launch() {
         this.torpedo;
+      
         if (this.game.time.now > this._nextFire) {
             this._nextFire = this.game.time.now + this.fireRate;
             console.log('fired!');
             this.torpedo = this.torpedos.getFirstDead();
 
             this.torpedo.reset(this.shipX + 30, this.shipY + 10);
+              this.torpedo.targetX = this.crosshair.x;
+        this.torpedo.targetY = this.crosshair.y;
             //this.game.physics.arcade.velocityFromRotation(this.torpedoRotation, 20, this.torpedo.body.velocity);
             this.game.camera.shake(0.004, 40);
             this.torpedo.rotation = this.torpedoRotation;
@@ -136,7 +142,8 @@ class weaponSystem extends Phaser.Sprite {
 
             var targetAngle = this.game.math.angleBetween(
                 torpedo.x, torpedo.y,
-                this.crosshair.x, this.crosshair.y
+              torpedo.targetX, torpedo.targetY
+                //this.crosshair.x, this.crosshair.y
             );
             var targetDistance = this.game.math.distance(torpedo.x, torpedo.y, this.shipX, this.shipY);
             var delta = targetAngle - torpedo.rotation;
@@ -145,7 +152,7 @@ class weaponSystem extends Phaser.Sprite {
 
 
 
-            if ( /*targetDistance < 280 && */ targetDistance > 80) {
+            if ( targetDistance < 280 && targetDistance > 80) {
                 if (delta > 0) {
                     torpedo.angle += this.TURN_RATE;
                 } else {
@@ -153,8 +160,6 @@ class weaponSystem extends Phaser.Sprite {
                 }
             }
 
-            //this.game.physics.arcade.accelerationFromRotation(torpedo.rotation, this.SPEED, torpedo.body.acceleration);
-            //  torpedo.body.velocity.x = 30;
             this.game.physics.arcade.velocityFromRotation(torpedo.rotation, this.SPEED, torpedo.body.velocity);
         }, this);
 

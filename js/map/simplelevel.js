@@ -41,6 +41,7 @@ class SimpleLevel extends Phaser.State {
         this.cameraTarget.anchor.setTo(0.5);
          this.game.camera.follow(this.cameraTarget);
         
+        
     }
 
     preload() {
@@ -57,8 +58,8 @@ class SimpleLevel extends Phaser.State {
     }
     update() {
         
-            var midX = (this.player.x + this.weapons.crosshair.x) / 2;
-        var midY = (this.player.y + this.weapons.crosshair.y) / 2;
+            var midX = (this.player.x + 25 + this.weapons.crosshair.x) / 2;
+        var midY = (this.player.y + 25 + this.weapons.crosshair.y) / 2;
         
         
 

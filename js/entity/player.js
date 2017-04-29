@@ -32,9 +32,9 @@ class Player extends Phaser.Sprite {
         course = course / 4;
         this.body.maxVelocity.x = course;
         if (course < 5 && course > -5) {
-            this.thruster.on = false;
+            this.thruster.frequency = 330;
         } else {
-            this.thruster.on = true;
+            this.thruster.frequency = 130;
         }
     }
 
@@ -44,7 +44,7 @@ class Player extends Phaser.Sprite {
     }
 
     _thruster() {
-        this.thruster = this.game.add.emitter(-30, 10, 200);
+        this.thruster = this.game.add.emitter(-36, 12, 200);
         this.thruster.makeParticles('bubble');
         this.thruster.maxParticleSpeed = new Phaser.Point(-100, 50);
         this.thruster.minParticleSpeed = new Phaser.Point(-200, -50);
@@ -54,11 +54,11 @@ class Player extends Phaser.Sprite {
             particle.body.allowGravity = false;
 
         }, this);
-        this.thruster.setScale(0.3, 0.7, 0.3, 0.7, 300);
-        this.thruster.start(false, 300, 130);
+        this.thruster.setScale(0.3, 0.8, 0.3, 0.8, 260);
+        this.thruster.start(false, 260, 230);
 
         this.addChild(this.thruster);
-        this.thruster.on = false;
+       // this.thruster.on = false;
     }
 
     _vent() {
@@ -87,7 +87,7 @@ class Player extends Phaser.Sprite {
 
       
 
-        this.depthDisplay.height = this.y / 290 * 280 - 180;
+        this.depthDisplay.height = this.y / 290 * 280 - 155;
         if (this.y < this.newDepth - 1) {
             this.body.acceleration.y = 3;
             //            this.ventilator.on = true;
@@ -99,7 +99,7 @@ class Player extends Phaser.Sprite {
         } else if (this.y > this.newDepth + 1) {
             this.ventilator.frequency = 30;
             this.body.acceleration.y = -3;
-            if (this.angle > -22) {
+            if (this.angle > -22 ) {
                 this.angle -= 0.08;
             }
         } else {
