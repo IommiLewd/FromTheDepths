@@ -64,7 +64,7 @@ class SimpleLevel extends Phaser.State {
         console.log('type again  ' + type);
 
         this.neutralShip = new neutralShips(this.game, 400, 105, this.neutralShipArray[type][0], this.neutralShipArray[type][1], this.neutralShipArray[type][2]);
-
+        this.shipGroup.add(this.neutralShip);
 
     }
     _loadCameraAnchor() {
@@ -76,7 +76,7 @@ class SimpleLevel extends Phaser.State {
     _torpedoImpact(neutralShip, torpedo){
         console.log('ass');
     this.weapons._torpedokilled(torpedo.x, torpedo.y, torpedo);
-        neutralShip._damageTaken(120);
+        neutralShip._damageTaken(145);
             var shipHealth = neutralShip.neutralShipHealth / neutralShip.neutralShipInitialHealth * 100;
              console.log('ouch! Damage taken! Health is at ' + shipHealth + ' % with   '+ neutralShip.neutralShipHealth + ' health left!');
     }
@@ -91,7 +91,7 @@ class SimpleLevel extends Phaser.State {
 //            this.game.physics.arcade.collide(this.player, this.enemies, this._player_damage, null, this);
 //            this.game.physics.arcade.collide(this.bullets, this.enemies, this._enemy_hit, null, this);
         
-       this.game.physics.arcade.collide(this.neutralShip, this.weapons.torpedos, this._torpedoImpact, null, this);
+       this.game.physics.arcade.collide(this.shipGroup, this.weapons.torpedos, this._torpedoImpact, null, this);
     }
     _animateWaves() {
 
@@ -116,7 +116,7 @@ class SimpleLevel extends Phaser.State {
         this._gameWidth = 1600;
         this.count = 0;
         this._loadLevel();
-
+        this.shipGroup = this.game.add.group();
         this._loadNeutralShips();
         this._loadWaveGenerator();
         this._loadPlayer();

@@ -107,23 +107,22 @@ class neutralShips extends Phaser.Sprite {
 
     }
     update() {
-        this.bubbleEmitter.forEachAlive(function (particle){
-         // if(particle.y < 190){particle.kill();}
-         //   console.log(particle.y);
-        }, this)
         if (this.isAlive) {
             this.roll += 0.2;
             this.y = 2 * Math.sin(this.roll / 4) + this.neutralShipKeel;
         } else {
+            this.body.velocity.x = 0;
             this.body.velocity.y = 12;
-            if (this.angle < 22) {
+            if (this.angle < 40) {
                 this.angle += 0.04;
             }
             if(this.y > 190){
                 this.bubbleEmitter.on = true;
             }
-            
-            
+            if(this.y > this.game.width){
+                this.kill(this);  
+            }
+          
         }
 
     }
