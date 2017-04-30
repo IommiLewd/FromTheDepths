@@ -23,7 +23,7 @@ class weaponSystem extends Phaser.Sprite {
         this.crosshair.anchor.setTo(0.5);
         this.crosshair.inputEnabled = true;
         this.crosshair.input.enableDrag(true);
-        this.crosshairBounds = new Phaser.Rectangle(12, 34, this.game.width - 12,  this.game.height - 34);
+        this.crosshairBounds = new Phaser.Rectangle(12, 34, this.game.width - 12, this.game.height - 34);
         this.crosshair.input.boundsRect = this.crosshairBounds;
         this.crosshair.fixedToCamera = true;
 
@@ -37,15 +37,15 @@ class weaponSystem extends Phaser.Sprite {
 
     _launch() {
         this.torpedo;
-      
+
         if (this.game.time.now > this._nextFire) {
             this._nextFire = this.game.time.now + this.fireRate;
             console.log('fired!');
             this.torpedo = this.torpedos.getFirstDead();
 
             this.torpedo.reset(this.shipX + 30, this.shipY + 10);
-              this.torpedo.targetX = this.crosshair.x;
-        this.torpedo.targetY = this.crosshair.y;
+            this.torpedo.targetX = this.crosshair.x;
+            this.torpedo.targetY = this.crosshair.y;
             //this.game.physics.arcade.velocityFromRotation(this.torpedoRotation, 20, this.torpedo.body.velocity);
             this.game.camera.shake(0.004, 40);
             this.torpedo.rotation = this.torpedoRotation;
@@ -57,7 +57,8 @@ class weaponSystem extends Phaser.Sprite {
 
     }
 
-    _torpedokilled(x, y) {
+    _torpedokilled(x, y, torpedo) {
+       
         console.log('torpedo killed at' + x + y);
         this.currentExplosion;
         this.currentExplosion = this.explosion.getFirstDead();
@@ -72,6 +73,7 @@ class weaponSystem extends Phaser.Sprite {
         this.currentExplosion.animations.currentAnim.onComplete.add(function (currentExplosion) {
             currentExplosion.kill(this);
         }, this);
+        torpedo.kill();
 
 
     }
@@ -88,7 +90,7 @@ class weaponSystem extends Phaser.Sprite {
         this.torpedoThruster = this.game.add.emitter(0, 0, 0);
         this.torpedoThruster.width = 0;
         this.torpedoThruster.height = 0;
-        
+
         this.torpedoThruster.makeParticles('bubble');
         this.torpedoThruster.maxParticleSpeed = new Phaser.Point(-100, 50);
         this.torpedoThruster.minParticleSpeed = new Phaser.Point(-200, -50);
@@ -124,16 +126,16 @@ class weaponSystem extends Phaser.Sprite {
 
         this.torpedos.forEachAlive(function (torpedo) {
             if (torpedo.y < 150) {
-                this._torpedokilled(torpedo.x, torpedo.y);
-                torpedo.kill();
+                this._torpedokilled(torpedo.x, torpedo.y, torpedo);
+
             }
             if (torpedo.y > 490) {
-                this._torpedokilled(torpedo.x, torpedo.y);
-                torpedo.kill();
+                this._torpedokilled(torpedo.x, torpedo.y, torpedo);
+
             }
             var targetAngle = this.game.math.angleBetween(
                 torpedo.x, torpedo.y,
-              torpedo.targetX, torpedo.targetY
+                torpedo.targetX, torpedo.targetY
                 //this.crosshair.x, this.crosshair.y
             );
             var targetDistance = this.game.math.distance(torpedo.x, torpedo.y, this.shipX, this.shipY);
@@ -143,7 +145,7 @@ class weaponSystem extends Phaser.Sprite {
 
 
 
-            if ( targetDistance < 280 && targetDistance > 80) {
+            if (targetDistance < 280 && targetDistance > 80) {
                 if (delta > 0) {
                     torpedo.angle += this.TURN_RATE;
                 } else {

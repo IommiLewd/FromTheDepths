@@ -10,6 +10,7 @@ class Preload extends Phaser.State {
         this.load.image('bubble', 'img/bubble.png');
         this.load.image('cameraTarget', 'img/cameraTarget.png');
         this.load.spritesheet('explosion', 'img/explosion.png', 50, 50, 4);
+        this.load.spritesheet('particles', 'img/particles.png', 16, 16, 5);
         
         this.load.image('backgroundGradient', 'img/backgroundGradient2.png');
         this.load.image('statusPixel', 'img/statusPixel.png');

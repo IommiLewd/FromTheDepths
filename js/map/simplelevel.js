@@ -73,9 +73,29 @@ class SimpleLevel extends Phaser.State {
         this.game.camera.follow(this.cameraTarget);
 
     }
+    _torpedoImpact(neutralShip, torpedo){
+        console.log('ass');
+    this.weapons._torpedokilled(torpedo.x, torpedo.y, torpedo);
+        neutralShip._damageTaken(120);
+            var shipHealth = neutralShip.neutralShipHealth / neutralShip.neutralShipInitialHealth * 100;
+             console.log('ouch! Damage taken! Health is at ' + shipHealth + ' % with   '+ neutralShip.neutralShipHealth + ' health left!');
+    }
+    
+    _collisionHandler(){
+//                    this.physics.arcade.overlap(this.bullets, this._collision_layer, this._kill_bullet, function (bullet, _collision_layer) {
+//                return _collision_layer.collides;
+//            }, this);
+//            this.game.physics.arcade.collide(this.player, this._collision_layer);
+//            this.game.physics.arcade.collide(this.player, this._ladder_layer);
+//            this.game.physics.arcade.collide(this.enemies, this._collision_layer);
+//            this.game.physics.arcade.collide(this.player, this.enemies, this._player_damage, null, this);
+//            this.game.physics.arcade.collide(this.bullets, this.enemies, this._enemy_hit, null, this);
+        
+       this.game.physics.arcade.collide(this.neutralShip, this.weapons.torpedos, this._torpedoImpact, null, this);
+    }
     _animateWaves() {
 
-
+        ;
         // this.count increments every frame. gives us a constantly
         // increasing X value for our sin function
         this.count += 0.08;
@@ -86,7 +106,7 @@ class SimpleLevel extends Phaser.State {
             currentWave.y = y + 135;
             i++;
         }, this);
-
+ 
     }
 
     preload() {
@@ -96,7 +116,6 @@ class SimpleLevel extends Phaser.State {
         this._gameWidth = 1600;
         this.count = 0;
         this._loadLevel();
-
 
         this._loadNeutralShips();
         this._loadWaveGenerator();
@@ -109,7 +128,7 @@ class SimpleLevel extends Phaser.State {
         this.depthUpdater = this.interface.events.deepChanger.add(this.player._depthUpdate, this.player, 0);
     }
     update() {
-
+this._collisionHandler();
         var midX = (this.player.x + 25 + this.weapons.crosshair.x) / 2;
         var midY = (this.player.y + 25 + this.weapons.crosshair.y) / 2;
 
