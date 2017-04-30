@@ -48,8 +48,23 @@ class SimpleLevel extends Phaser.State {
         // this.game.camera.follow(this.weapons.crosshair);
     }
 
-    _loadNeutralShips() {
-        this.neutralShip = new neutralShips(this.game, 400, 105, 'oilTanker');
+    _loadNeutralShips(type) {
+        if (type === undefined) {
+            type = Math.floor(Math.random() * (3 - 0 + 0)) + 0;
+            console.log(type);
+        }
+
+        this.neutralShipArray = [
+         //0 - key, 1 - keel depth, 2 - health
+
+          ['oilTanker', 114, 620, 18400],
+          ['hauler', 108, 420, 13600],
+          ['largeHauler', 108, 550, 15200],
+        ];
+        console.log('type again  ' + type);
+
+        this.neutralShip = new neutralShips(this.game, 400, 105, this.neutralShipArray[type][0], this.neutralShipArray[type][1], this.neutralShipArray[type][2]);
+
 
     }
     _loadCameraAnchor() {
@@ -81,10 +96,11 @@ class SimpleLevel extends Phaser.State {
         this._gameWidth = 1600;
         this.count = 0;
         this._loadLevel();
-        this._loadPlayer();
-        
+
+
         this._loadNeutralShips();
         this._loadWaveGenerator();
+        this._loadPlayer();
         this._loadWeaponSystem();
         this._loadInterface();
 
