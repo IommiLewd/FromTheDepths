@@ -48,7 +48,15 @@ class SimpleLevel extends Phaser.State {
         // this.game.camera.follow(this.weapons.crosshair);
     }
 
-    _loadNeutralShips(type) {
+    _generateConvoy(){
+        var placement = 400;
+        for(var i = 0; i < 4; i++){
+             this._loadNeutralShips(placement, 105);
+            placement += 320;
+        }
+    }
+    
+    _loadNeutralShips(x, y, type) {
         if (type === undefined) {
             type = Math.floor(Math.random() * (3 - 0 + 0)) + 0;
             console.log(type);
@@ -63,7 +71,7 @@ class SimpleLevel extends Phaser.State {
         ];
         console.log('type again  ' + type);
 
-        this.neutralShip = new neutralShips(this.game, 400, 105, this.neutralShipArray[type][0], this.neutralShipArray[type][1], this.neutralShipArray[type][2]);
+        this.neutralShip = new neutralShips(this.game, x, y, this.neutralShipArray[type][0], this.neutralShipArray[type][1], this.neutralShipArray[type][2]);
         this.shipGroup.add(this.neutralShip);
 
     }
@@ -74,30 +82,27 @@ class SimpleLevel extends Phaser.State {
 
     }
     _torpedoImpact(neutralShip, torpedo){
+    
         console.log('ass');
     this.weapons._torpedokilled(torpedo.x, torpedo.y, torpedo);
         neutralShip._damageTaken(145);
             var shipHealth = neutralShip.neutralShipHealth / neutralShip.neutralShipInitialHealth * 100;
              console.log('ouch! Damage taken! Health is at ' + shipHealth + ' % with   '+ neutralShip.neutralShipHealth + ' health left!');
     }
+    _torpedoCheck(torpedo, neutralShip){
+        var isTrue = true;
+        if(torpedo.isAlive){
+            isTrue = true;
+        } else {
+            isTrue = false;
+        }
+        return isTrue;
+    }
     
     _collisionHandler(){
-//                    this.physics.arcade.overlap(this.bullets, this._collision_layer, this._kill_bullet, function (bullet, _collision_layer) {
-//                return _collision_layer.collides;
-//            }, this);
-//            this.game.physics.arcade.collide(this.player, this._collision_layer);
-//            this.game.physics.arcade.collide(this.player, this._ladder_layer);
-//            this.game.physics.arcade.collide(this.enemies, this._collision_layer);
-//            this.game.physics.arcade.collide(this.player, this.enemies, this._player_damage, null, this);
-//            this.game.physics.arcade.collide(this.bullets, this.enemies, this._enemy_hit, null, this);
-        
-       this.game.physics.arcade.collide(this.shipGroup, this.weapons.torpedos, this._torpedoImpact, null, this);
+       this.game.physics.arcade.collide(this.shipGroup, this.weapons.torpedos, this._torpedoImpact, this._torpedoCheck, this);
     }
     _animateWaves() {
-
-        ;
-        // this.count increments every frame. gives us a constantly
-        // increasing X value for our sin function
         this.count += 0.08;
         var i = 0;
         this.waveHandler.forEach(function (currentWave) {
@@ -117,7 +122,8 @@ class SimpleLevel extends Phaser.State {
         this.count = 0;
         this._loadLevel();
         this.shipGroup = this.game.add.group();
-        this._loadNeutralShips();
+        //this._loadNeutralShips(400, 105);
+        this._generateConvoy();
         this._loadWaveGenerator();
         this._loadPlayer();
         this._loadWeaponSystem();
@@ -132,7 +138,7 @@ this._collisionHandler();
         var midX = (this.player.x + 25 + this.weapons.crosshair.x) / 2;
         var midY = (this.player.y + 25 + this.weapons.crosshair.y) / 2;
 
-
+        this.backgroundGradient.tilePosition.x -= 0.1;
 
         this.cameraTarget.x = midX;
         this.cameraTarget.y = midY;

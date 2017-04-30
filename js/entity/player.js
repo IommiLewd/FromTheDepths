@@ -14,6 +14,7 @@ class Player extends Phaser.Sprite {
         //this._loadDetectionSphere();
         this.detectionRating = 2;
         this._loadDepthDisplay();
+     
     }
     _depthUpdate(newDepth) {
         this.newDepth = newDepth;

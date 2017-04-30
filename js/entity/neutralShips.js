@@ -8,14 +8,14 @@ class neutralShips extends Phaser.Sprite {
         this.neutralShipKeel = keel;
         this.neutralShipInitialHealth = health;
         console.log(key + ' neutral ship spawned! Health is: ' + this.neutralShipHealth + ' Keel is: ' + this.neutralShipKeel);
-        this.roll = 125;
+        this.roll = 115;
         this._fire();
         this._bubbles();
         this.scale.setTo(-1, 1);
         this.isAlive = true;
         this.outOfBoundsKill = true;
         console.log(this.width + 'is width');
-
+        this.VariableMovement = Math.random() * (0.4 - 0.2 + 0.2) + 0.2;
         //this.tint = 0x242424; <-tint for being dead
         //this.tint = 0x4a0707; //<-Tint for taking damage
 
@@ -108,7 +108,8 @@ class neutralShips extends Phaser.Sprite {
     }
     update() {
         if (this.isAlive) {
-            this.roll += 0.2;
+            this.body.velocity.x = 0;
+            this.roll += this.VariableMovement;
             this.y = 2 * Math.sin(this.roll / 4) + this.neutralShipKeel;
         } else {
             this.body.velocity.x = 0;
