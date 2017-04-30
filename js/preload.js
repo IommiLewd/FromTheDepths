@@ -17,6 +17,7 @@ class Preload extends Phaser.State {
         this.load.image('torpedo', 'img/torpedo.png');
         this.load.image('testFire', 'img/testFire.png');
         this.load.image('wave', 'img/wave.png');
+
   
         //Neutral Ships
          this.load.script('neutralShips', 'js/entity/neutralShips.js');

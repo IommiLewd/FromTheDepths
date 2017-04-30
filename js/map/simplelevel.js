@@ -17,8 +17,8 @@ class SimpleLevel extends Phaser.State {
             e.preventDefault();
         }
         this.game.stage.backgroundColor = "#1b2823";
-        this.game.world.setBounds(0, 0, 1200, 500);
-        this.backgroundGradient = this.game.add.tileSprite(0, 0, 1200, 500, 'backgroundGradient');
+        this.game.world.setBounds(0, 0, 1600, 500);
+        this.backgroundGradient = this.game.add.tileSprite(0, 0, 1600, 500, 'backgroundGradient');
 
     }
     _loadInterface() {
@@ -49,7 +49,7 @@ class SimpleLevel extends Phaser.State {
     }
 
     _loadNeutralShips() {
-        this.neutralShip = new neutralShips(this.game, 700, 110, 'hauler');
+        this.neutralShip = new neutralShips(this.game, 400, 105, 'oilTanker');
 
     }
     _loadCameraAnchor() {
@@ -63,11 +63,11 @@ class SimpleLevel extends Phaser.State {
 
         // this.count increments every frame. gives us a constantly
         // increasing X value for our sin function
-        this.count += 0.1;
+        this.count += 0.08;
         var i = 0;
         this.waveHandler.forEach(function (currentWave) {
             var x = i + this.count;
-            var y = Math.sin(x) * 3;
+            var y = Math.sin(x) * 4;
             currentWave.y = y + 135;
             i++;
         }, this);
@@ -78,6 +78,7 @@ class SimpleLevel extends Phaser.State {
 
     }
     create() {
+        this._gameWidth = 1600;
         this.count = 0;
         this._loadLevel();
         this._loadPlayer();
