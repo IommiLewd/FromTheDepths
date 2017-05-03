@@ -60,7 +60,7 @@ class userInterface extends Phaser.Sprite {
     }
 
     _loadStatusBar() {
-        this.statusBar = this.game.add.image(376, 4, 'statusBar');
+        this.statusBar = this.game.add.image(442, 4, 'statusBar');
         this.statusBar.fixedToCamera = true;
     }
 

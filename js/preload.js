@@ -1,17 +1,16 @@
 class Preload extends Phaser.State {
     preload() {
         //this.load.script('webfont', '//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js');
-       // this.load.image('creature', 'img/creatureTemplate.png');
-      
+        // this.load.image('creature', 'img/creatureTemplate.png');
+
         this.load.script('simpleLevel', 'js/map/simplelevel.js');
         this.load.script('player', 'js/entity/player.js');
         this.load.script('weaponSystem', 'js/entity/weaponSystem.js');
-        this.load.tilemap('mainMap', 'json/mainMap.json', null, Phaser.Tilemap.TILED_JSON); 
+        this.load.tilemap('mainMap', 'json/mainMap.json', null, Phaser.Tilemap.TILED_JSON);
         this.load.image('bubble', 'img/bubble.png');
         this.load.image('cameraTarget', 'img/cameraTarget.png');
         this.load.spritesheet('explosion', 'img/explosion.png', 50, 50, 4);
         this.load.spritesheet('particles', 'img/particles.png', 16, 16, 5);
-        
         this.load.image('backgroundGradient', 'img/backgroundGradient2.png');
         this.load.image('statusPixel', 'img/statusPixel.png');
         this.load.image('crosshair', 'img/crosshair.png');
@@ -19,23 +18,28 @@ class Preload extends Phaser.State {
         this.load.image('testFire', 'img/testFire.png');
         this.load.image('wave', 'img/wave.png');
 
-  
+        // EnemyShips
+        this.load.script('enemyShips', 'js/entity/enemyShips.js');
+        this.load.image('depthCharger', 'img/enemyShips/depthCharger.png');
+        this.load.image('torpedoBoat', 'img/enemyShips/torpedoBoat.png');
+        this.load.image('torpedoModule', 'img/enemyShips/torpedoModule.png');
+
         //Neutral Ships
-         this.load.script('neutralShips', 'js/entity/neutralShips.js');
+        this.load.script('neutralShips', 'js/entity/neutralShips.js');
         this.load.image('hauler', 'img/neutralShips/hauler.png');
         this.load.image('largeHauler', 'img/neutralShips/largeHauler.png');
         this.load.image('oilTanker', 'img/neutralShips/oilTanker.png');
-        
+
         //subs
-        this.load.image('playerSub', 'img/subs/playerSub.png');
-        
+        this.load.image('playerSub', 'img/subs/playerSub2.png');
+
         //Ui Related
-         this.load.script('userInterface', 'js/entity/userInterface.js');
-         this.load.image('depthMeter', 'img/ui/depthMeter.png');
-         this.load.image('courseSelector', 'img/ui/courseSelector.png');
-         this.load.image('statusBar', 'img/ui/statusBar.png');
-         this.load.image('depthArrow', 'img/ui/depthArrow.png');
-         this.load.image('courseArrow', 'img/ui/courseArrow.png');
+        this.load.script('userInterface', 'js/entity/userInterface.js');
+        this.load.image('depthMeter', 'img/ui/depthMeter.png');
+        this.load.image('courseSelector', 'img/ui/courseSelector.png');
+        this.load.image('statusBar', 'img/ui/statusBar.png');
+        this.load.image('depthArrow', 'img/ui/depthArrow.png');
+        this.load.image('courseArrow', 'img/ui/courseArrow.png');
         this.game.renderer.renderSession.roundPixels = true
     }
     create() {

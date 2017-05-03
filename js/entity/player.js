@@ -6,8 +6,8 @@ class Player extends Phaser.Sprite {
         this.anchor.setTo(0.5);
         this.game.physics.arcade.enableBody(this);
         this.body.collideWorldBounds = true;
-        this.body.maxVelocity.x = 10;
-        this.body.maxVelocity.y = 15;
+        this.body.maxVelocity.x = 22;
+        //this.body.maxVelocity.y = 15;
         this.newDepth = 190;
         this._thruster();
         this._vent();
@@ -22,6 +22,7 @@ class Player extends Phaser.Sprite {
     }
     _courseUpdate(course) {
         this.body.acceleration.x = course / 20;
+        //this.body.velocity.x = course / 20;
         if (course < 0) {
             this.thruster.angle = 180;
             this.thruster.y = -15;
@@ -31,7 +32,7 @@ class Player extends Phaser.Sprite {
         }
         course = Math.abs(course);
         course = course / 4;
-        this.body.maxVelocity.x = course;
+       this.body.maxVelocity.x = course + 4;
         if (course < 5 && course > -5) {
             this.thruster.frequency = 330;
         } else {
@@ -95,21 +96,21 @@ class Player extends Phaser.Sprite {
             this.ventilator.frequency = 30;
 
             if (this.angle < 22) {
-                this.angle += 0.08;
+                this.angle += 0.12;
             }
         } else if (this.y > this.newDepth + 1) {
             this.ventilator.frequency = 30;
             this.body.acceleration.y = -3;
             if (this.angle > -22 ) {
-                this.angle -= 0.08;
+                this.angle -= 0.12;
             }
         } else {
 
             this.body.velocity.y = 0;
             if (this.angle < -1) {
-                this.angle += 0.08;
+                this.angle += 0.12;
             } else if (this.angle > 1) {
-                this.angle -= 0.08;
+                this.angle -= 0.12;
             } else {
                 this.ventilator.frequency = 280;
             }

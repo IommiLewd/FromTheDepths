@@ -152,7 +152,7 @@ class weaponSystem extends Phaser.Sprite {
                     torpedo.angle -= this.TURN_RATE;
                 }
             }
-
+            //torpedo.x -= 0.2;
             this.game.physics.arcade.velocityFromRotation(torpedo.rotation, this.SPEED, torpedo.body.velocity);
         }, this);
 
